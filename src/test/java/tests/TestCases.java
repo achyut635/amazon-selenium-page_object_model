@@ -19,7 +19,8 @@ public class TestCases {
   private WebDriver driver;
 
   @BeforeClass
-  public void setUp(@Optional("false") @org.testng.annotations.Parameters({"headed"}) String headed) {
+  @Parameters({"headed"}) 
+  public void setUp(@Optional("false")  String headed) {
     DriverFactory.initDriver(Boolean.parseBoolean(headed));
     driver = DriverFactory.getDriver();
   }
