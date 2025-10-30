@@ -1,6 +1,6 @@
 # Amazon.com POM — Java + Selenium + TestNG + Allure
 
-Now with **Allure reports** and **TestNG suites** (smoke, regression, parallel).
+With **Allure reports** and **TestNG suites** (smoke, regression, parallel).
 
 ## Quick start
 ```bash
