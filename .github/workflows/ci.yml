@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Install dependencies
+        run: mvn -q -DskipTests dependency:resolve
+
+      - name: Run Smoke Suite (headless)
+        run: mvn -Dsurefire.suiteXmlFiles=src/test/resources/testng-smoke.xml test
+
+      - name: Package Allure results
+        if: always()
+        run: |
+          mkdir -p artifacts
+          cp -r target/surefire-reports artifacts/surefire-reports || true
+          cp -r target/allure-results artifacts/allure-results || true
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: artifacts
+
+      # Optional: generate static Allure HTML (requires allure Maven plugin)
+      - name: Generate Allure report
+        if: always()
+        run: mvn allure:report || true
+
+      - name: Upload Allure HTML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin
