@@ -15,7 +15,7 @@ import pages.CartPage;
 @Listeners({base.AllureTestListener.class})
 @Epic("Amazon")
 @Feature("Shopping")
-public class ExampleTest {
+public class TestCases {
   private WebDriver driver;
 
   @BeforeClass
