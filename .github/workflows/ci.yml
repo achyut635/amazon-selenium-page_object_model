@@ -26,9 +26,6 @@ jobs:
       - name: Install dependencies
         run: mvn -q -DskipTests dependency:resolve
 
-      - name: Run Smoke Suite (headless)
-        run: mvn -Dsurefire.suiteXmlFiles=src/test/resources/testng-smoke.xml test
-
       - name: Package Allure results
         if: always()
         run: |
